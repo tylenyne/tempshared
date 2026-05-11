@@ -1,0 +1,31 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.1.10'
+}
+
+group = 'crossxyed'
+version = '1.0-SNAPSHOT'
+
+
+project.ext.skikoVersion = "0.8.9"
+project.ext.skikoNatives = "windows"
+project.ext.skikoArch = "x64"
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    implementation 'org.jetbrains.skiko:skiko:0.8.19'
+    implementation 'dev.romainguy:kotlin-math:1.5.3'
+    implementation("org.jetbrains.skiko:skiko-awt:$skikoVersion")
+    implementation("org.jetbrains.skiko:skiko-awt-runtime-$skikoNatives-$skikoArch:$skikoVersion")
+}
+
+test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(21)
+}
