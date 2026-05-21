@@ -10,7 +10,7 @@ public class MasterClass extends Module implements AutoCloseable {
     private static ArrayList<Long> dlls;
 
     public static void main(String[] args) {
-
+        Window.init();
     }
 
     public static void init() {

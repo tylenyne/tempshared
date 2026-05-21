@@ -7,10 +7,10 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 fun drawNgon(ngon: Ngon, brush: Path) : Path {
-    brush.moveTo(Point((cos( 0f) * ngon.point.x).toFloat(), (sin(0f) * ngon.point.y).toFloat()))
+    brush.moveTo(Point((cos( 0f) * ngon.v.x).toFloat(), (sin(0f) * ngon.v.y).toFloat()))
     var angle: Double = (360 / ngon.sides * PI) / 180
     for(i in 1 until ngon.sides) {
-        brush.lineTo(Point((cos(angle * i) * ngon.point.x).toFloat(), (sin(angle * i) * ngon.point.y).toFloat()))
+        brush.lineTo(Point((cos(angle * i) * ngon.v.x).toFloat(), (sin(angle * i) * ngon.v.y).toFloat()))
     }
     brush.close()
     return brush

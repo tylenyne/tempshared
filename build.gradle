@@ -1,5 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.1.10'
+    id "org.jetbrains.kotlin.jvm" version "2.2.0"
+    id  'java'
 }
 
 group = 'crossxyed'
@@ -7,7 +8,7 @@ version = '1.0-SNAPSHOT'
 
 project.ext.lwjglVersion = "3.4.1"
 project.ext.lwjglNatives = "natives-windows"
-project.ext.skikoVersion = "0.8.9"
+project.ext.skikoVersion = "0.8.19"
 project.ext.skikoNatives = "windows"
 project.ext.skikoArch = "x64"
 project.ext.gstrVersion = "1.4.0"
@@ -20,27 +21,18 @@ repositories {
 dependencies {
     //////////////////SHARED////////////////////////////////////////
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    implementation 'org.jetbrains.skiko:skiko:0.8.19'
-    implementation 'dev.romainguy:kotlin-math:1.5.3'
+    implementation 'org.jetbrains.skiko:skiko:0.9.24'
+    implementation 'dev.romainguy:kotlin-math:1.8.0'
     //////////////////MAIN/////////////////////////////////////////
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-openal"
-    implementation "org.lwjgl:lwjgl-opengl"
     implementation "org.lwjgl:lwjgl-glfw"
     implementation "org.lwjgl:lwjgl-jemalloc"
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-jemalloc::$lwjglNatives"
 
-}
-
-test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(21)
 }
