@@ -3,7 +3,7 @@ package SHARED
 import dev.romainguy.kotlin.math.Float3
 import org.jetbrains.skia.Point
 
-val fov: Float = 900f
+val fov: Float = 90f
 
 fun PovProjection(v: Float3): Point {
     if (v.z != 0f) {

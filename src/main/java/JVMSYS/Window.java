@@ -22,9 +22,10 @@ public class Window extends Module {
 
     public static void main(String[] args) {
         init();
-        Decoder.decodeOBJ("triangle.obj", null);
+        Decoder.decodeOBJ("simple_bunny.obj", null);
+        Animator.plus(0, 0, 1, Decoder.simplices);
         SPClass.INSTANCE.recvWindow();
-        SPClass.INSTANCE.recvRender(Decoder.simplices.toFloatArray());
+        SPClass.INSTANCE.recvRender(Decoder.simplices);
         while (true) {
             if (isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
                 break;

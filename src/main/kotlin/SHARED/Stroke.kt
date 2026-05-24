@@ -4,7 +4,7 @@ import dev.romainguy.kotlin.math.*;
 import org.jetbrains.skia.Path
 import org.jetbrains.skia.Point
 
-open class Stroke(var p: Point = Point(0f, 0f)) {
+open class Stroke(var sp: Point = Point(0f, 0f)) {
 
     constructor(x: Float, y: Float) : this(Point(x, y))
 

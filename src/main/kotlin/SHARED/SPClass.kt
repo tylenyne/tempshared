@@ -4,7 +4,6 @@ import JVMSYS.Module
 import SHARED.Simplex
 import SHARED.formatSimplexes
 import SHARED.storeSimplexes
-import dev.romainguy.kotlin.math.Float3
 import org.jetbrains.skia.*
 
 object SPClass : Module() {
@@ -32,7 +31,7 @@ object SPClass : Module() {
             var element: Path? = Path()
             when(shape::class.simpleName){
                 "QuadStroke" -> {
-                   element = sceneRaster?.let { (shape as QuadStoke).draw(it.brush) }
+                   element = sceneRaster?.let { (shape as QuadStroke).draw(it.brush) }
                 }
                 "NStroke" -> {
                     element = sceneRaster?.let { (shape as NStroke).draw(it.brush) }
@@ -45,11 +44,6 @@ object SPClass : Module() {
             sceneRaster?.surf?.canvas?.drawPath(element, sceneRaster?.skeletonPreset!!)
         }
 
-        val sanityCheck = arrayOf(
-            Point(300f, 200f),
-            Point(500f, 200f),
-            Point(400f, 400f)
-        ); sceneRaster?.surf?.canvas?.drawTriangles(sanityCheck, null, null, null, BlendMode.SRC, sceneRaster?.fleshPreset!!)
         sceneRaster?.surf?.canvas?.drawTriangles(tsvp, null, null, null, BlendMode.SRC, sceneRaster?.fleshPreset!!)
         return
     }
