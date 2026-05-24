@@ -1,5 +1,6 @@
 package JVMSYS;
 
+import crossxyed.SHARED.SPClass;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -15,21 +16,30 @@ public class Window extends Module {
 
     private static long window;
 
-    private static long videobuffer;
+    private static int fb0;
 
     private static boolean resized, vSync;
 
     public static void main(String[] args) {
         init();
-        while(true) {
-            update();
-        } //cleanup();
+        Decoder.decodeOBJ("triangle.obj", null);
+        SPClass.INSTANCE.recvWindow();
+        SPClass.INSTANCE.recvRender(Decoder.simplices.toFloatArray());
+        while (true) {
+            if (isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+                break;
+            }
+            SPClass.INSTANCE.Loop();
+            SPClass.INSTANCE.buffer();
+            swapBuffer();
+        }
+        cleanup();
     }
 
-    public static void init(){
+    public static void init() {
         GLFWErrorCallback.createPrint(System.err).set();
 
-        if(!GLFW.glfwInit()){
+        if (!GLFW.glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
@@ -48,14 +58,14 @@ public class Window extends Module {
         GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW.GLFW_TRUE);//This is self explanatory toggle a windowHint to true
 
         boolean maximized = false;
-        if(width == 0 || height == 0){
+        if (width == 0 || height == 0) {
             width = 100;
             height = 100;
             GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_TRUE);
             maximized = true;
         }
         window = GLFW.glfwCreateWindow(width, height, Title, MemoryUtil.NULL, MemoryUtil.NULL);
-        if(window == MemoryUtil.NULL) {
+        if (window == MemoryUtil.NULL) {
             throw new RuntimeException("Failed to create the GLFW Window");
         }
 
@@ -69,43 +79,42 @@ public class Window extends Module {
 
         GLFW.glfwSetKeyCallback(window, (window, key, scanc, action, mods) ->
         {
-            if(key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE){
+            if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
                 GLFW.glfwSetWindowShouldClose(window, true);
             }
 
         });
 
-        if(maximized){
+        if (maximized) {
             GLFW.glfwMaximizeWindow(window);
-        }
-        else{
+        } else {
             GLFWVidMode vidMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
-            GLFW.glfwSetWindowPos(window, ((vidMode.width()-width)/2), ((vidMode.height()-height)/2));
+            GLFW.glfwSetWindowPos(window, ((vidMode.width() - width) / 2), ((vidMode.height() - height) / 2));
         }
 
         GLFW.glfwMakeContextCurrent(window);
 
-        if(vSync){
+        if (vSync) {
             GLFW.glfwSwapInterval(1);
         }
 
         GLFW.glfwShowWindow(window);
     }
 
-    public boolean isKeyPressed(int keycode){
+    public static boolean isKeyPressed(int keycode) {
         return GLFW.glfwGetKey(window, keycode) == GLFW.GLFW_PRESS;
     }
 
-    public boolean windowShouldClose(){
+    public boolean windowShouldClose() {
         return GLFW.glfwWindowShouldClose(window);
     }
 
-    public static void update(){
+    public static void swapBuffer() {
         GLFW.glfwSwapBuffers(window);
         GLFW.glfwPollEvents();
     }
 
-    public static void cleanup(){
+    public static void cleanup() {
         GLFW.glfwDestroyWindow(window);
     }
 

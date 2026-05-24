@@ -3,7 +3,11 @@ package JVMSYS;
 import java.util.HashMap;
 
 public abstract class Module {
-    private static String moduleId;
-    private static String moduleBuffer = "";
-    private static HashMap<String, Class> registry;
+    protected String moduleId;
+    protected String moduleBuffer = "";
+    protected HashMap<String, Class> registry;
+
+    public void register(Class c) {
+        registry.put(c.getName(), c);
+    }
 }

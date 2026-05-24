@@ -16,14 +16,19 @@ project.ext.gstrVersion = "1.4.0"
 
 repositories {
     mavenCentral()
+    maven { url "https://maven.pkg.jetbrains.space/public/p/compose/dev" }
 }
 
 dependencies {
     //////////////////SHARED////////////////////////////////////////
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    implementation 'org.jetbrains.skiko:skiko:0.9.24'
+    implementation 'org.jetbrains.skiko:skiko:0.9.37'
     implementation 'dev.romainguy:kotlin-math:1.8.0'
+
+    runtimeOnly 'org.jetbrains.skiko:skiko-awt-runtime-windows-x64:0.9.37'
     //////////////////MAIN/////////////////////////////////////////
+    implementation 'it.unimi.dsi:fastutil:8.5.13'
+
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
     implementation "org.lwjgl:lwjgl"

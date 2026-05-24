@@ -9,10 +9,6 @@ public class MasterClass extends Module implements AutoCloseable {
 
     private static ArrayList<Long> dlls;
 
-    public static void main(String[] args) {
-        Window.init();
-    }
-
     public static void init() {
 
         File[] dir = new File("system").listFiles();
@@ -22,12 +18,12 @@ public class MasterClass extends Module implements AutoCloseable {
 
     }
 
-    public static void bufferImmediate(String msg) {
-        System.out.println(msg);
-    }
-
-    private static void buffer() {
-        System.out.println();
+    private void buffer() throws NoSuchFieldException {
+        for (Class c : super.registry.values()){
+            Object mid = c.getDeclaredField("moduleId");
+            Object mbuffer = c.getDeclaredField("moduleBuffer");
+            System.out.println("_" + mid + "__" + mbuffer + "___");
+        }
     }
 
     @Override
