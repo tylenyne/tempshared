@@ -3,13 +3,16 @@ package SHARED
 import dev.romainguy.kotlin.math.Float3
 import org.jetbrains.skia.Point
 
-val fov: Float = 90f
+fun OrthoProjection(v: Float3): Point {
+    return enlargePlane(atCoordinates(Point(v.x, v.y)))
+}
 
-fun PovProjection(v: Float3): Point {
-    if (v.z != 0f) {
-        return Point(v.x / v.z * fov, v.y / v.z * fov)
-    }
-    return Point(v.x * fov, v.y * fov)
+fun atCoordinates(p: Point): Point {
+    return p.offset(400f, 300f)
+}
+
+fun enlargePlane(p: Point): Point {
+    return p.scale(10f, 10f)
 }
 
 

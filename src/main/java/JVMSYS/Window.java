@@ -22,14 +22,30 @@ public class Window extends Module {
 
     public static void main(String[] args) {
         init();
-        Decoder.decodeOBJ("simple_bunny.obj", null);
-        Animator.plus(0, 0, 1, Decoder.simplices);
+        Decoder.decodeOBJ("basic_bunny.obj", null);
         SPClass.INSTANCE.recvWindow();
-        SPClass.INSTANCE.recvRender(Decoder.simplices);
+        Model Basic_Bunny = Animator.load(0, 0, 0, Decoder.simplices);
+        Animator.plus(000f,000f, 0, Basic_Bunny);
+        Animator.scale(40f,40f, 40f, Basic_Bunny);
+        //Animator.plus(-5000, -5000, 0, Basic_Bunny);
+        SPClass.INSTANCE.recvRender(Basic_Bunny.array);
         while (true) {
             if (isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
                 break;
+            } if (isKeyPressed(GLFW.GLFW_KEY_W)) {
+                Animator.plus(0f,.1f, 0f, Basic_Bunny);
+            } if (isKeyPressed(GLFW.GLFW_KEY_S)) {
+                Animator.plus(0f,-.1f, -0f, Basic_Bunny);
+            } if (isKeyPressed(GLFW.GLFW_KEY_A)) {
+                Animator.plus(.1f,0f, 0, Basic_Bunny);
+            } if (isKeyPressed(GLFW.GLFW_KEY_D)) {
+                Animator.plus(-.1f,0f, 0, Basic_Bunny);
+            } if (isKeyPressed(GLFW.GLFW_KEY_Q)) {
+                Animator.plus(0f,0f, -.1f, Basic_Bunny);
+            } if (isKeyPressed(GLFW.GLFW_KEY_E)) {
+                Animator.plus(0f,0f, .1f, Basic_Bunny);
             }
+            SPClass.INSTANCE.recvRender(Basic_Bunny.array);
             SPClass.INSTANCE.Loop();
             SPClass.INSTANCE.buffer();
             swapBuffer();

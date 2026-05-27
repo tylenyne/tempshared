@@ -20,7 +20,7 @@ data class SceneRaster(val imageinfo: ImageInfo = ImageInfo(800, 600, ColorType.
     val skeletonPreset = Paint().apply {
             color = Color.WHITE;
             mode = PaintMode.STROKE;
-            strokeWidth = 4f;
+            strokeWidth = 1f;
     }
 
     val fleshPreset = Paint().apply {

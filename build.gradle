@@ -9,9 +9,7 @@ version = '1.0-SNAPSHOT'
 project.ext.lwjglVersion = "3.4.1"
 project.ext.lwjglNatives = "natives-windows"
 project.ext.skikoVersion = "0.8.19"
-project.ext.skikoNatives = "windows"
 project.ext.skikoArch = "x64"
-project.ext.gstrVersion = "1.4.0"
 
 
 repositories {
@@ -32,11 +30,9 @@ dependencies {
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
     implementation "org.lwjgl:lwjgl"
-    implementation "org.lwjgl:lwjgl-openal"
     implementation "org.lwjgl:lwjgl-glfw"
     implementation "org.lwjgl:lwjgl-jemalloc"
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-jemalloc::$lwjglNatives"
 

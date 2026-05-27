@@ -44,7 +44,21 @@ object SPClass : Module() {
             sceneRaster?.surf?.canvas?.drawPath(element, sceneRaster?.skeletonPreset!!)
         }
 
-        sceneRaster?.surf?.canvas?.drawTriangles(tsvp, null, null, null, BlendMode.SRC, sceneRaster?.fleshPreset!!)
+        for (simplex in simplices) {
+            try {
+                var element = Path().apply {
+                    moveTo(simplex.A)
+                    lineTo(simplex.B)
+                    lineTo(simplex.C)
+                    closePath()
+                }
+                sceneRaster?.surf?.canvas?.drawPath(element, sceneRaster?.skeletonPreset!!)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        //sceneRaster?.surf?.canvas?.drawTriangles(tsvp, null, null, null, BlendMode.SRC, sceneRaster?.skeletonPreset!!)
         return
     }
 

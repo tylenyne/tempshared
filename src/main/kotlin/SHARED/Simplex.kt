@@ -9,7 +9,7 @@ fun assert(tArr: FloatArray) { //Maybe make return FloatArray
 
 data class Simplex(val A: Point = Point(0f, 0f), val B: Point = Point(0f, 0f), val C: Point = Point(0f, 0f)) {
 
-    constructor(A: Float3, B: Float3, C: Float3) : this(PovProjection(A), PovProjection(B), PovProjection(C))
+    constructor(A: Float3, B: Float3, C: Float3) : this(OrthoProjection(A), OrthoProjection(B), OrthoProjection(C))
 
     constructor(triArray: Array<Float3>) : this(triArray[0], triArray[1], triArray[2])
 
