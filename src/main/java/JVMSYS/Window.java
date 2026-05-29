@@ -22,13 +22,13 @@ public class Window extends Module {
 
     public static void main(String[] args) {
         init();
-        Decoder.decodeOBJ("basic_bunny.obj", null);
+        Bass.init();
         SPClass.INSTANCE.recvWindow();
-        Model Basic_Bunny = Animator.load(0, 0, 0, Decoder.simplices);
+        Model Basic_Bunny = Decoder.loadOBJ("basic_bunny", null);
         Animator.plus(000f,000f, 0, Basic_Bunny);
         Animator.scale(40f,40f, 40f, Basic_Bunny);
         //Animator.plus(-5000, -5000, 0, Basic_Bunny);
-        SPClass.INSTANCE.recvRender(Basic_Bunny.array);
+        SPClass.INSTANCE.recvRender(Basic_Bunny.points);
         while (true) {
             if (isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
                 break;
@@ -45,7 +45,7 @@ public class Window extends Module {
             } if (isKeyPressed(GLFW.GLFW_KEY_E)) {
                 Animator.plus(0f,0f, .1f, Basic_Bunny);
             }
-            SPClass.INSTANCE.recvRender(Basic_Bunny.array);
+            SPClass.INSTANCE.recvRender(Basic_Bunny.points);
             SPClass.INSTANCE.Loop();
             SPClass.INSTANCE.buffer();
             swapBuffer();

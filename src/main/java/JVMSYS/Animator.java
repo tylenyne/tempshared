@@ -1,30 +1,20 @@
 package JVMSYS;
 
-import java.util.Objects;
-
 public class Animator {
 
-    public static Model load(float rx, float ry, float rz, float[] model) {
-        Model ret = new Model();
-        ret.init(model);
-        ret.setRootPos(0, 0, 0);
-        ret.setRootOrientation(0, 0, 0);
-        return ret;
-    }
-
     public static void plus(float dx, float dy, float dz, Model model) {
-        for (int k = 0; k < model.array.length/3; k++) {
-            model.array[k * 3] += dx;
-            model.array[k * 3 + 1] += dy;
-            model.array[k * 3 + 2] += dz;
+        for (int k = 0; k < model.points.length/3; k++) {
+            model.points[k * 3] += dx;
+            model.points[k * 3 + 1] += dy;
+            model.points[k * 3 + 2] += dz;
         } model.setRootPos(model.lx + dx,model.ly + dy,model.lz + dz);
     }
 
     public static void scale(float sx, float sy, float sz, Model model) {
-        for (int k = 0; k < model.array.length/3; k++) {
-            model.array[k * 3] *= sx;
-            model.array[k * 3 + 1] *= sy;
-            model.array[k * 3 + 2] *= sz;
+        for (int k = 0; k < model.points.length/3; k++) {
+            model.points[k * 3] *= sx;
+            model.points[k * 3 + 1] *= sy;
+            model.points[k * 3 + 2] *= sz;
         }
     }
 

@@ -1,6 +1,7 @@
 plugins {
     id "org.jetbrains.kotlin.jvm" version "2.2.0"
     id  'java'
+    id 'application'
 }
 
 group = 'crossxyed'
@@ -11,6 +12,9 @@ project.ext.lwjglNatives = "natives-windows"
 project.ext.skikoVersion = "0.8.19"
 project.ext.skikoArch = "x64"
 
+application {
+    mainClass.set("JVMSYS.Window")
+}
 
 repositories {
     mavenCentral()
