@@ -5,6 +5,9 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.system.MemoryUtil;
+
+import java.net.URISyntaxException;
+
 import static org.lwjgl.glfw.GLFWVulkan.glfwVulkanSupported;
 
 //Large Spaces represent Section
@@ -20,9 +23,11 @@ public class Window extends Module {
 
     private static boolean resized, vSync;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException {
         init();
         Bass.init();
+        long stream_handle = Bass.createChannel("acappella.mp3");
+        Bass.channelPlay(stream_handle);
         SPClass.INSTANCE.recvWindow();
         Model Basic_Bunny = Decoder.loadOBJ("basic_bunny", null);
         Animator.plus(000f,000f, 0, Basic_Bunny);
