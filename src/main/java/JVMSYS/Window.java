@@ -36,16 +36,16 @@ public class Window extends Module {
             if (isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
                 break;
             } if (isKeyPressed(GLFW.GLFW_KEY_W)) {
-                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {0, .1f, 0}));
+                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {0, .5f, 0}));
             } if (isKeyPressed(GLFW.GLFW_KEY_S)) {
-                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {0, -.1f, 0}));
+                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {0, -.5f, 0}));
 
 
                 
             } if (isKeyPressed(GLFW.GLFW_KEY_A)) {
-                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {.1f, 0f, 0}));
+                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {.5f, 0f, 0}));
             } if (isKeyPressed(GLFW.GLFW_KEY_D)) {
-                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {-.1f, 0f, 0}));
+                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {-.5f, 0f, 0}));
             } if(isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
                 Basic_Bunny.setRootOrientation(Util.plus(Basic_Bunny.r_xyz_new, new float[] {-.01f, 0f, 0}));
             } if(isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
@@ -54,6 +54,18 @@ public class Window extends Module {
                 Basic_Bunny.setRootOrientation(Util.plus(Basic_Bunny.r_xyz_new, new float[] {0, .01f, 0}));
             } if(isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
                 Basic_Bunny.setRootOrientation(Util.plus(Basic_Bunny.r_xyz_new, new float[] {0, -.01f, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_Q)) {
+                Basic_Bunny.setRootScale(Util.plus(Basic_Bunny.s_xyz, new float[] {0, -1f, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_E)) {
+                Basic_Bunny.setRootScale(Util.plus(Basic_Bunny.s_xyz, new float[] {0, 1f, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_1)) {
+                Basic_Bunny.setRootScale(Util.plus(Basic_Bunny.s_xyz, new float[] {-1, 0f, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_2)) {
+                Basic_Bunny.setRootScale(Util.plus(Basic_Bunny.s_xyz, new float[] {1, 0f, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_3)) {
+                Basic_Bunny.setRootScale(Util.plus(Basic_Bunny.s_xyz, new float[] {0, 0f, -1}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_4)) {
+                Basic_Bunny.setRootScale(Util.plus(Basic_Bunny.s_xyz, new float[] {0, 0f, 1}));
             }
             Scheduler.assemble();
             Scene.INSTANCE.Loop();
