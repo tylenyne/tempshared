@@ -6,7 +6,7 @@ import SHARED.formatSimplexes
 import SHARED.storeSimplexes
 import org.jetbrains.skia.*
 
-object SPClass : Module() {
+object Scene : Module() {
     var sceneRaster: SceneRaster? = null
     //Have to be sorted in Z order so they can overlap
     var shapes = emptyArray<Stroke>()

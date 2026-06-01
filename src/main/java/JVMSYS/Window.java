@@ -1,6 +1,6 @@
 package JVMSYS;
 
-import crossxyed.SHARED.SPClass;
+import crossxyed.SHARED.Scene;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -26,33 +26,38 @@ public class Window extends Module {
     public static void main(String[] args) throws URISyntaxException {
         init();
         Bass.init();
-        long stream_handle = Bass.createChannel("acappella.mp3");
-        Bass.channelPlay(stream_handle);
-        SPClass.INSTANCE.recvWindow();
+        //long stream_handle = Bass.createChannel("acappella.mp3");
+        //Bass.channelPlay(stream_handle);
+        Scene.INSTANCE.recvWindow();
         Model Basic_Bunny = Decoder.loadOBJ("basic_bunny", null);
-        Animator.plus(000f,000f, 0, Basic_Bunny);
-        Animator.scale(40f,40f, 40f, Basic_Bunny);
-        //Animator.plus(-5000, -5000, 0, Basic_Bunny);
-        SPClass.INSTANCE.recvRender(Basic_Bunny.points);
+        Basic_Bunny.setRootScale(1000, 1000, 1000);
+        Scheduler.register(Basic_Bunny);
         while (true) {
             if (isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
                 break;
             } if (isKeyPressed(GLFW.GLFW_KEY_W)) {
-                Animator.plus(0f,.1f, 0f, Basic_Bunny);
+                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {0, .1f, 0}));
             } if (isKeyPressed(GLFW.GLFW_KEY_S)) {
-                Animator.plus(0f,-.1f, -0f, Basic_Bunny);
+                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {0, -.1f, 0}));
+
+
+                
             } if (isKeyPressed(GLFW.GLFW_KEY_A)) {
-                Animator.plus(.1f,0f, 0, Basic_Bunny);
+                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {.1f, 0f, 0}));
             } if (isKeyPressed(GLFW.GLFW_KEY_D)) {
-                Animator.plus(-.1f,0f, 0, Basic_Bunny);
-            } if (isKeyPressed(GLFW.GLFW_KEY_Q)) {
-                Animator.plus(0f,0f, -.1f, Basic_Bunny);
-            } if (isKeyPressed(GLFW.GLFW_KEY_E)) {
-                Animator.plus(0f,0f, .1f, Basic_Bunny);
+                Basic_Bunny.setRootPos(Util.plus(Basic_Bunny.xyz, new float[] {-.1f, 0f, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+                Basic_Bunny.setRootOrientation(Util.plus(Basic_Bunny.r_xyz_new, new float[] {-.01f, 0f, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+                Basic_Bunny.setRootOrientation(Util.plus(Basic_Bunny.r_xyz_new, new float[] {.01f, 0, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_UP)) {
+                Basic_Bunny.setRootOrientation(Util.plus(Basic_Bunny.r_xyz_new, new float[] {0, .01f, 0}));
+            } if(isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+                Basic_Bunny.setRootOrientation(Util.plus(Basic_Bunny.r_xyz_new, new float[] {0, -.01f, 0}));
             }
-            SPClass.INSTANCE.recvRender(Basic_Bunny.points);
-            SPClass.INSTANCE.Loop();
-            SPClass.INSTANCE.buffer();
+            Scheduler.assemble();
+            Scene.INSTANCE.Loop();
+            Scene.INSTANCE.buffer();
             swapBuffer();
         }
         cleanup();

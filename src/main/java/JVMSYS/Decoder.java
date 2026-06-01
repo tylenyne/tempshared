@@ -9,15 +9,18 @@ import java.net.URL;
 import java.nio.CharBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
+import static JVMSYS.Util.*;
+
 public class Decoder {
-    @Deprecated
-    public static float[] vertices;
-    @Deprecated
-    public static float[] simplices;
-    @Deprecated
-    public static short[] indices;
+    private static float[] vertices;
+    private static float[] simplices;
+    private static short[] indices;
+
+    private static HashMap<String, Model> cache;
 
     public static CharBuffer readAllUnicode(String filename) {
         URL url = Decoder.class.getClassLoader().getResource(filename);
@@ -32,17 +35,26 @@ public class Decoder {
     }
 
     public static Model loadOBJ(String name, String mode) {
-        float[] fileObj = decodeOBJ(name + ".obj", mode);
-        float[] centerObj = centerOBJ(fileObj);
+        if (cache == null) {
+            cache = new HashMap<>();
+        }
+        decodeOBJ(name + ".obj", mode);
+        float[] center = getCentroid();
+        float[] centerObj = centerOBJ(center[0], center[1], center[2]);
         Model ret = new Model();
         ret.setRootPoints(centerObj);
-        ret.setRootOrientation(0, 0, 0);
+        ret.setRootScale(1, 1, 1);
         ret.setRootPos(0, 0, 0);
+        ret.r_xyz_old = new float[] {0, 0, 0};
+        ret.r_xyz_new = new float[] {0, 0, 0};
+        if (!cache.containsKey(name)) {
+            cache.put(name, ret);
+        }
 
         return ret;
     }
 
-    public static float[] decodeOBJ(String filename, String mode) {
+    public static void decodeOBJ(String filename, String mode) {
         if (mode == null) {
             mode = "v";
         }
@@ -106,25 +118,45 @@ public class Decoder {
                     break;
             }
         }
-        return s.toFloatArray();
+        vertices = v.toFloatArray();
+        simplices = s.toFloatArray();
+        indices = i.toShortArray();
     }
 
-    public static float[] centerOBJ(float[] obj) {
-        int ivertex = 0;
-        float bottomx = 0xFFFFFFFF, bottomy = 0xFFFFFFFF;
-        float[] ret = new float[obj.length];
+    public static float[] centerOBJ(float centerx, float centery, float centerz) {
+        float[] ret = new float[simplices.length];
 
-        for (int k = 0; k < obj.length / 3; k++) {
-            if (obj[k * 3] < bottomx && obj[k * 3 + 1] < bottomy) {
-                ivertex = k;
-                bottomx = obj[k * 3];
-                bottomy = obj[k * 3 + 1];
-            }
-        }
         for (int k = 0; k < ret.length / 3; k++) {
-            ret[k * 3] += obj[ivertex * 3];
-            ret[k * 3 + 1] += obj[ivertex * 3 + 1];
+            ret[k * 3] = simplices[k * 3] - centerx;
+            ret[k * 3 + 1] = simplices[k * 3 + 1] - centery;
+            ret[k * 3 + 2] = simplices[k * 3 + 2] - centerz;
         }
+        System.out.println("centerx: " + centerx + " centery: " + centery + " centerz: " + centerz);
+        return ret;
+    }
+
+    public static float[] getCentroid() {
+        float[] ret = new float[3];
+        float totalArea = 0;
+        for (int k = 0; k < simplices.length / 9; k++) {
+            float[] a = Arrays.copyOfRange(simplices, k * 9, k * 9 + 3);
+            float[] b = Arrays.copyOfRange(simplices, k * 9 + 3, k * 9 + 6);
+            float[] c = Arrays.copyOfRange(simplices, k * 9 + 6, k * 9 + 9);
+            float area = .5f * magnitude(cross(minus(c, a), minus(b, a)));
+            totalArea += area;
+            ret[0] += simplices[k * 9] / 3 * area;
+            ret[1] += simplices[k * 9 + 1] / 3 * area;
+            ret[2] += simplices[k * 9 + 2] / 3 * area;
+            ret[0] += simplices[k * 9 + 3] / 3 * area;
+            ret[1] += simplices[k * 9 + 4] / 3 * area;
+            ret[2] += simplices[k * 9 + 5] / 3 * area;
+            ret[0] += simplices[k * 9 + 6] / 3 * area;
+            ret[1] += simplices[k * 9 + 7] / 3 * area;
+            ret[2] += simplices[k * 9 + 8] / 3 * area;
+        }
+        ret[0] /= totalArea;
+        ret[1] /= totalArea;
+        ret[2] /= totalArea;
         return ret;
     }
 }
